@@ -30,7 +30,32 @@ void Router(IAsyncResult result)
   if (result.AsyncState is HttpListener listener)
   {
     HttpListenerContext context = listener.EndGetContext(result);
+
     HttpListenerRequest request = context.Request;
+    string path = request.Url?.AbsolutePath ?? "/";
+    
+    
+    if(request.HttpMethod == "GET")
+    {
+      Console.WriteLine("requesting resource at: " + request.Url?.AbsolutePath);
+    } 
+    else if (request.HttpMethod == "POST")
+    {
+      
+      StreamReader? reader = new(request.InputStream, request.ContentEncoding);
+      string data = reader.ReadToEnd();
+      Console.WriteLine($"received data: {data}");
+      
+      if (request.Url?.AbsolutePath == "/users")
+      {
+        UploadUser(data);
+        
+      }
+      else
+      {
+        
+      }
+    }
     //Console.WriteLine($"{request.Url}, {request.HttpMethod}");
     HttpListenerResponse response = context.Response;
     byte[] buffer = null; 
@@ -51,7 +76,7 @@ void Router(IAsyncResult result)
 
     }
     
-    
+   
     
     //response.StatusCode = (int)HttpStatusCode.OK; // = 200
     //response.ContentType = "text/plain";
@@ -61,4 +86,13 @@ void Router(IAsyncResult result)
     
     listener.BeginGetContext(new AsyncCallback(Router), listener);
   }
+}
+
+void UploadUser(string data)
+{
+  string[] user = data.Split(",");
+  string name = user[0];
+  string pass = user[1];
+  
+  Console.WriteLine($"created new user with name: {name} and password {pass}");
 }
