@@ -70,7 +70,7 @@ void Router(IAsyncResult result)
       case "http://127.0.0.1:3000/users":
         response.StatusCode = (int)HttpStatusCode.OK; // = 200
         response.ContentType = "text/plain";
-        buffer = Encoding.UTF8.GetBytes("users in localhost \nfanduill");
+        buffer = Encoding.UTF8.GetBytes("users in localhost \nfanduill"); 
         response.OutputStream.Write(buffer, 0, buffer.Length);
         break;
 
@@ -94,5 +94,8 @@ void UploadUser(string data)
   string name = user[0];
   string pass = user[1];
   
+
+  //insert db logic
+
   Console.WriteLine($"created new user with name: {name} and password {pass}");
 }
