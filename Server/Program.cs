@@ -10,6 +10,8 @@ Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs e)
   listen = false;
 };
 
+
+
 int port = 3000;
 HttpListener listener = new();
 
@@ -53,7 +55,7 @@ void Router(IAsyncResult result)
       }
       else
       {
-        
+
       }
     }
     //Console.WriteLine($"{request.Url}, {request.HttpMethod}");
